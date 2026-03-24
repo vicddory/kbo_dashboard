@@ -1,0 +1,645 @@
+<!-- KBO 세이버메트릭스 대시보드 — 지표 용어 설명 (stat_glossary.html) -->
+<!-- 이 파일은 콘텐츠 전용 소스이며, 스타일/필터/스크립트는 index.html·css/style.css·js/app.js에서 관리합니다. -->
+<!-- CSS 클래스: .stat-glossary-item | 수식: <code> 태그 | 카테고리별 그룹핑 -->
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- A. 기본 타격 지표 -->
+<!-- ══════════════════════════════════════════════ -->
+
+<section class="stat-glossary-section" id="section-batting">
+  <h3 class="stat-section-title">기본 타격 지표</h3>
+
+  <div class="stat-glossary-item" id="glossary-avg">
+    <h4>타율 (AVG)</h4>
+    <p class="stat-summary">안타를 타수로 나눈 값. 타자의 가장 기본적인 타격 지표.</p>
+    <p class="stat-formula"><code>AVG = H / AB</code></p>
+    <p class="stat-detail">
+      타자가 타석에서 얼마나 자주 안타를 치는지를 나타냅니다.
+      KBO에서 .300 이상이면 우수 타자, .330 이상이면 수위타자 경쟁권입니다.
+      단, 볼넷과 사구를 포함하지 않아 출루 능력을 완전히 반영하지 못하는 한계가 있습니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-obp">
+    <h4>출루율 (OBP)</h4>
+    <p class="stat-summary">안타·볼넷·사구를 포함해 타자가 얼마나 자주 출루하는지를 나타내는 지표.</p>
+    <p class="stat-formula"><code>OBP = (H + BB + HBP) / (AB + BB + HBP + SF)</code></p>
+    <p class="stat-detail">
+      타율보다 정밀하게 타자의 출루 능력을 측정합니다. 볼넷을 자주 얻는 선수는
+      타율이 낮아도 OBP가 높을 수 있습니다.
+      KBO에서 .380 이상이면 우수, .400 이상이면 엘리트 수준입니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-slg">
+    <h4>장타율 (SLG)</h4>
+    <p class="stat-summary">타수당 총 루타 수. 타자의 장타 생산 능력을 나타냅니다.</p>
+    <p class="stat-formula"><code>SLG = (1B×1 + 2B×2 + 3B×3 + HR×4) / AB</code></p>
+    <p class="stat-detail">
+      단타보다 장타를 많이 치는 타자일수록 SLG가 높습니다.
+      .450 이상이면 준수한 장타력, .500 이상이면 강타자 수준입니다.
+      단, 출루 능력(볼넷 등)은 전혀 반영하지 않는 한계가 있습니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-ops">
+    <h4>OPS</h4>
+    <p class="stat-summary">출루율과 장타율을 더한 값. 타자의 공격력을 하나의 숫자로 빠르게 파악할 때 사용.</p>
+    <p class="stat-formula"><code>OPS = OBP + SLG</code></p>
+    <p class="stat-detail">
+      계산이 단순하면서도 타자 가치를 비교적 잘 반영해 폭넓게 사용됩니다.
+      KBO 기준 .800 이상이면 준수, .900 이상이면 우수, 1.000 이상이면 엘리트급입니다.
+      다만 OBP와 SLG를 단순 합산하므로 두 지표의 가중치가 동일하게 취급된다는 이론적 한계가 있습니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-pa">
+    <h4>타석 (PA)</h4>
+    <p class="stat-summary">타자가 타석에 선 총 횟수. 볼넷·사구·희생번트·희생플라이 등을 모두 포함.</p>
+    <p class="stat-formula"><code>PA = AB + BB + HBP + SF + SAC</code></p>
+    <p class="stat-detail">
+      선수의 출전 규모를 나타내는 기준값입니다. 타율 등의 지표에서 분모로 사용되는
+      타수(AB)와 달리, PA는 타석에 선 모든 상황을 포함합니다.
+      규정타석(타격왕 자격) 기준은 보통 팀 경기 수 × 3.1입니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-ab">
+    <h4>타수 (AB)</h4>
+    <p class="stat-summary">타석 중 볼넷·사구·희생번트·희생플라이를 제외한 횟수.</p>
+    <p class="stat-formula"><code>AB = PA - BB - HBP - SF - SAC</code></p>
+    <p class="stat-detail">
+      타율(AVG)과 장타율(SLG)의 분모로 사용됩니다.
+      볼넷을 자주 얻는 선수는 PA 대비 AB가 상대적으로 적어집니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-h">
+    <h4>안타 (H)</h4>
+    <p class="stat-summary">타자가 아웃·실책 없이 베이스에 안전하게 진루한 타격.</p>
+    <p class="stat-formula"><code>H = 1B + 2B + 3B + HR</code></p>
+    <p class="stat-detail">
+      단타(1B), 2루타(2B), 3루타(3B), 홈런(HR)을 모두 포함합니다.
+      수비수의 실책에 의한 출루나 희생번트는 안타로 기록되지 않습니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-extra-hits">
+    <h4>2루타 (2B) / 3루타 (3B) / 홈런 (HR)</h4>
+    <p class="stat-summary">각각 2루, 3루, 홈(4루)까지 주자가 진루한 안타.</p>
+    <p class="stat-formula"><code>TB = 1B×1 + 2B×2 + 3B×3 + HR×4</code></p>
+    <p class="stat-detail">
+      홈런은 타자가 타격 직후 홈까지 도달하는 안타로, 주루 없이 득점이 보장됩니다.
+      3루타는 빠른 발과 수비 위치의 결합에 따라 발생하며 현대 야구에서는 희귀한 편입니다.
+      장타율(SLG)은 이 세 종류의 장타를 루타 수로 환산해 반영합니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-rbi">
+    <h4>타점 (RBI)</h4>
+    <p class="stat-summary">타자의 타격으로 홈에 들어온 주자(자신 포함) 수.</p>
+    <p class="stat-formula"><code>RBI = 해당 타격으로 득점한 주자 수</code></p>
+    <p class="stat-detail">
+      타순과 팀 타선 구성에 크게 영향을 받아 개인 능력 지표로는 한계가 있습니다.
+      득점 기회가 많은 3~5번 타자가 유리하며, 세이버메트릭스에서는 wOBA나 wRC+가
+      타점보다 선수 가치를 더 정확히 반영한다고 봅니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-bb">
+    <h4>볼넷 (BB)</h4>
+    <p class="stat-summary">투수가 4개의 볼을 던져 타자가 1루로 자동 진루하는 상황.</p>
+    <p class="stat-formula"><code>출루율(OBP) 분자에 포함</code></p>
+    <p class="stat-detail">
+      선구안이 좋은 타자는 볼넷을 많이 얻어 타율에 비해 OBP가 높게 나타납니다.
+      볼넷은 투수에게 불리한 카운트를 만들어 다음 타자에게도 좋은 환경을 제공합니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-ibb">
+    <h4>고의사구 (IBB)</h4>
+    <p class="stat-summary">투수(또는 감독)가 의도적으로 4개의 볼을 던져 허용하는 볼넷.</p>
+    <p class="stat-formula"><code>wOBA 계산 시 분모에서 제외 (IBB를 BB에서 뺌)</code></p>
+    <p class="stat-detail">
+      위험한 타자를 상대하지 않고 다음 타자를 공략하려는 전술적 선택입니다.
+      wOBA 계산 시 IBB는 분모에서 제외하는데, 이는 고의사구가 투수의 의도적 결정이지
+      타자의 실력과 무관하기 때문입니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-hbp">
+    <h4>사구 / 몸에 맞는 공 (HBP)</h4>
+    <p class="stat-summary">투수의 공이 타자 몸에 맞아 타자가 1루로 진루하는 상황.</p>
+    <p class="stat-formula"><code>OBP 분자 및 wOBA 분자에 포함</code></p>
+    <p class="stat-detail">
+      타자 책임이 아닌 진루이므로 출루율(OBP)에는 포함되지만 타율(AVG)에는 포함되지 않습니다.
+      일부 타자는 타석에서 몸을 플레이트 쪽으로 내밀어 HBP를 적극 유도하는 스타일을 구사합니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-sf">
+    <h4>희생플라이 (SF)</h4>
+    <p class="stat-summary">외야 뜬공으로 아웃되었지만, 주자가 태그업 후 홈에 들어온 타격.</p>
+    <p class="stat-formula"><code>타율 및 OPS 계산 분모에서 제외</code></p>
+    <p class="stat-detail">
+      타자가 아웃되더라도 팀에 득점을 제공하는 타격이므로, 타율(AVG)과 OBP 분모에서 제외해
+      타자에게 불이익이 가지 않도록 처리합니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-sb">
+    <h4>도루 (SB)</h4>
+    <p class="stat-summary">주자가 투구 중 다음 베이스로 성공적으로 진루한 횟수.</p>
+    <p class="stat-formula"><code>wSB = SB × 0.2 + CS × (-(2 × RunsPerOut + 0.075)) - lgwSB × 기회</code></p>
+    <p class="stat-detail">
+      빠른 발과 판단력이 요구되는 플레이로, 팀 득점 기회를 만들어냅니다.
+      단순 도루 횟수만으로는 가치를 평가하기 어려우며, 도루 성공률과 실패 비용을
+      함께 고려하는 wSB가 더 정확한 가치 측정값입니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-cs">
+    <h4>도루 실패 (CS)</h4>
+    <p class="stat-summary">도루 시도 중 아웃된 횟수.</p>
+    <p class="stat-formula"><code>도루 성공률 = SB / (SB + CS)</code></p>
+    <p class="stat-detail">
+      도루 실패는 아웃카운트를 하나 소진하므로 팀에 큰 손실입니다.
+      일반적으로 도루 성공률 70% 이상이 손익분기점으로 알려져 있으며,
+      wSB 계산에서 CS는 마이너스 가중치를 받습니다.
+    </p>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- B. 기본 투수 지표 -->
+<!-- ══════════════════════════════════════════════ -->
+
+<section class="stat-glossary-section" id="section-pitching">
+  <h3 class="stat-section-title">기본 투수 지표</h3>
+
+  <div class="stat-glossary-item" id="glossary-era">
+    <h4>평균자책점 (ERA)</h4>
+    <p class="stat-summary">9이닝당 투수 책임으로 인정되는 자책점 수. 투수의 가장 기본적인 평가 지표.</p>
+    <p class="stat-formula"><code>ERA = (ER × 9) / IP</code></p>
+    <p class="stat-detail">
+      수비 실책에 의한 실점(비자책점)은 제외하고 투수 책임 실점만 계산합니다.
+      KBO 기준 ERA 3.00 이하면 우수, 2.00 이하면 에이스급입니다.
+      단, ERA는 운(인플레이 타구 처리율)과 수비 수준에 영향을 받아
+      세이버메트릭스에서는 FIP이나 RA9를 보완 지표로 함께 사용합니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-ip">
+    <h4>이닝 (IP)</h4>
+    <p class="stat-summary">투수가 책임을 진 이닝 수. 1/3이닝 단위로 기록.</p>
+    <p class="stat-formula"><code>IP = 완전이닝 + (아웃카운트 / 3) ※ 표기: 6⅓ = 6.333...</code></p>
+    <p class="stat-detail">
+      ERA·WHIP·RA9 등 모든 투수 비율 지표의 분모로 사용됩니다.
+      선발 투수는 통상 5이닝 이상을 책임져야 승리투수 자격이 주어집니다.
+      이 대시보드에서는 소수점 처리를 위해 내부적으로 <code>IP_dec = IP_기록 // 1 + (IP_기록 % 1) × 10/3</code>으로 변환합니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-w-l">
+    <h4>승 (W) / 패 (L)</h4>
+    <p class="stat-summary">선발 투수 기준으로 부여되는 승·패 기록.</p>
+    <p class="stat-formula"><code>선발 투수가 5이닝 이상 투구 후 리드를 유지한 상태로 물러나고 팀이 승리하면 승리 부여</code></p>
+    <p class="stat-detail">
+      전통적으로 투수를 평가하는 핵심 지표였지만, 세이버메트릭스 관점에서는
+      팀 타선의 지원 여부에 크게 좌우되어 개인 능력을 정확히 반영하지 못한다고 봅니다.
+      같은 ERA를 가진 투수라도 팀 득점 지원에 따라 10승과 15승이 갈릴 수 있습니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-sv">
+    <h4>세이브 (SV)</h4>
+    <p class="stat-summary">마무리 투수가 리드를 지키며 경기를 마무리한 기록.</p>
+    <p class="stat-formula"><code>3점 이내 리드 상황에서 등판 후 마지막 아웃을 잡으면 세이브 성립</code></p>
+    <p class="stat-detail">
+      마무리 투수의 핵심 성과 지표입니다. 단, 세이브 상황의 난이도가 매우 다양해
+      단순 세이브 횟수만으로는 마무리 투수의 진짜 능력을 평가하기 어렵습니다.
+      ERA·WHIP와 함께 종합적으로 해석하는 것이 권장됩니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-hld">
+    <h4>홀드 (HLD)</h4>
+    <p class="stat-summary">중간 계투 투수가 리드를 유지한 채 다음 투수에게 공을 넘긴 기록.</p>
+    <p class="stat-formula"><code>세이브 상황에서 등판 후 아웃카운트를 하나 이상 잡고 리드를 유지한 채 교체되면 홀드 성립</code></p>
+    <p class="stat-detail">
+      중간 계투 투수의 역할을 수치화한 지표입니다.
+      세이브와 달리 마지막 아웃을 직접 잡을 필요가 없어, 셋업맨·원포인트 릴리버 등
+      다양한 계투 투수의 가치를 인정하는 지표입니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-k">
+    <h4>삼진 (SO / K)</h4>
+    <p class="stat-summary">투수가 3스트라이크로 타자를 아웃시킨 횟수.</p>
+    <p class="stat-formula"><code>K/9 = (K × 9) / IP | K% = K / BF</code></p>
+    <p class="stat-detail">
+      인플레이 타구와 달리 수비의 영향을 전혀 받지 않는 순수한 투수 능력 지표입니다.
+      FIP 계산의 핵심 성분 중 하나이며, 현대 야구에서 삼진 능력은 투수 가치의 중요한 척도입니다.
+      KBO 기준 K/9 8.0 이상이면 우수한 탈삼진 능력으로 평가합니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-whip">
+    <h4>WHIP</h4>
+    <p class="stat-summary">이닝당 허용한 볼넷과 피안타의 합. 투수가 얼마나 주자를 허용하는지를 나타냅니다.</p>
+    <p class="stat-formula"><code>WHIP = (BB + H) / IP</code></p>
+    <p class="stat-detail">
+      WHIP 1.00 이하는 엘리트급, 1.20 이하는 우수, 1.40 이상이면 평균 이하입니다.
+      ERA보다 운의 영향을 덜 받아 투수의 실제 제구·구위를 빠르게 파악할 때 유용합니다.
+      단, 홈런은 반영하지 않는 한계가 있습니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-r">
+    <h4>실점 (R)</h4>
+    <p class="stat-summary">비자책점을 포함한 전체 실점. 수비 실책에 의한 실점도 포함됩니다.</p>
+    <p class="stat-formula"><code>R = ER + 비자책점(UER)</code></p>
+    <p class="stat-detail">
+      ERA가 자책점(ER)만 반영하는 것과 달리, R은 모든 실점을 포함합니다.
+      RA9 계산의 분자로 사용되며, bWAR 투수 산출 방식의 핵심 성분입니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-er">
+    <h4>자책점 (ER)</h4>
+    <p class="stat-summary">수비 실책 없이 투수 책임으로만 발생한 실점.</p>
+    <p class="stat-formula"><code>ERA = (ER × 9) / IP</code></p>
+    <p class="stat-detail">
+      자책점 판정은 수비 실책이 없었을 경우를 가정해 계산합니다.
+      같은 상황에서도 공식 기록원의 판단에 따라 자책/비자책이 달라질 수 있어
+      약간의 주관이 개입됩니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-ra9">
+    <h4>9이닝당 실점 (RA9)</h4>
+    <p class="stat-summary">비자책점을 포함한 전체 실점을 9이닝 기준으로 환산한 지표. ERA의 보완 지표.</p>
+    <p class="stat-formula"><code>RA9 = (R × 9) / IP</code></p>
+    <p class="stat-detail">
+      ERA는 수비 실책을 투수 책임에서 제외하지만, RA9는 모든 실점을 포함합니다.
+      이 대시보드의 Proxy WAR 투수 계산은 RA9 기반 bWAR 방식을 채택합니다.
+      실제로 투수가 허용한 결과를 더 직접적으로 반영하기 때문입니다.
+    </p>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- C. 수비 / 주루 지표 -->
+<!-- ══════════════════════════════════════════════ -->
+
+<section class="stat-glossary-section" id="section-fielding">
+  <h3 class="stat-section-title">수비 / 주루 지표</h3>
+
+  <div class="stat-glossary-item" id="glossary-pos">
+    <h4>포지션 (POS)</h4>
+    <p class="stat-summary">선수가 맡은 수비 위치. 포지션별 수비 난이도 차이를 Proxy WAR 계산에 반영합니다.</p>
+    <p class="stat-formula"><code>포수(C) · 1루수(1B) · 2루수(2B) · 3루수(3B) · 유격수(SS) · 좌익수(LF) · 중견수(CF) · 우익수(RF) · 지명타자(DH)</code></p>
+    <p class="stat-detail">
+      포지션별로 수비 난이도가 다르므로, 같은 타격 능력이라도 포지션에 따라 선수 가치가 달라집니다.
+      유격수·포수는 수비 부담이 크기 때문에 타격이 다소 부족해도 가치가 인정되고,
+      지명타자는 수비 부담이 없으므로 타격으로만 가치를 만들어야 합니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-definn">
+    <h4>수비이닝 (Defensive IP)</h4>
+    <p class="stat-summary">해당 포지션에서 실제 수비한 이닝 수.</p>
+    <p class="stat-formula"><code>Pos Adj = (수비이닝 / 9 / 162) × 포지션_고정값</code></p>
+    <p class="stat-detail">
+      복수 포지션을 소화한 선수는 포지션별 수비이닝을 가중 평균해 보정값을 계산합니다.
+      예를 들어 유격수(SS) 100이닝 + 3루수(3B) 80이닝을 수비했다면,
+      두 포지션의 보정값을 이닝 비율로 합산합니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-gs">
+    <h4>선발 출전 (GS)</h4>
+    <p class="stat-summary">선발 라인업에 이름을 올리고 출전한 경기 수.</p>
+    <p class="stat-formula"><code>GS = 선발 라인업에 포함된 경기 수</code></p>
+    <p class="stat-detail">
+      투수의 GS는 선발 등판 수를 의미하며, 야수의 GS는 선발 출전 경기 수를 의미합니다.
+      규정 이닝(투수) 및 규정 타석(타자)의 기준값 계산에 활용됩니다.
+    </p>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- D. 세이버메트릭스 보정 지표 -->
+<!-- ══════════════════════════════════════════════ -->
+
+<section class="stat-glossary-section" id="section-sabermetrics">
+  <h3 class="stat-section-title">세이버메트릭스 보정 지표</h3>
+
+  <div class="stat-glossary-item" id="glossary-woba">
+    <h4>가중 출루율 (wOBA)</h4>
+    <p class="stat-summary">각 타격 이벤트에 실제 득점 기여 가중치를 부여한 출루율. OBP보다 타자 가치를 정밀하게 측정합니다.</p>
+    <p class="stat-formula"><code>wOBA = (wBB×BB + wHBP×HBP + w1B×1B + w2B×2B + w3B×3B + wHR×HR) / (AB + BB - IBB + SF + HBP)</code></p>
+    <p class="stat-detail">
+      OBP는 볼넷과 홈런을 동일하게 "1번의 출루"로 처리하지만, wOBA는 홈런이 볼넷보다
+      훨씬 더 큰 득점 가치가 있다는 점을 가중치로 반영합니다.
+      기준 가중치(BB≈0.69, 1B≈0.89, 2B≈1.27, 3B≈1.62, HR≈2.10)는 매년 리그 득점 환경에 따라 조정됩니다.
+      KBO 기준 wOBA .340 이상이면 우수, .380 이상이면 엘리트급입니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-wraa">
+    <h4>가중 평균 대비 득점 기여 (wRAA)</h4>
+    <p class="stat-summary">wOBA를 리그 평균과 비교해 타자가 평균 대비 몇 점을 더 만들었는지를 나타내는 런 단위 지표.</p>
+    <p class="stat-formula"><code>wRAA = ((wOBA - lgwOBA) / wOBA_Scale) × PA</code></p>
+    <p class="stat-detail">
+      양수이면 리그 평균 타자보다 많은 득점에 기여했고, 음수이면 평균 이하입니다.
+      Proxy WAR 타자 계산의 핵심 성분인 Batting Runs의 기초값으로 사용됩니다.
+      리그 평균 타자는 wRAA = 0이 됩니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-wobascale">
+    <h4>wOBA Scale</h4>
+    <p class="stat-summary">wOBA를 득점(런) 단위로 변환하는 계수. 매년 리그 환경에 따라 달라집니다.</p>
+    <p class="stat-formula"><code>wOBA_Scale ≈ lgwOBA / lgOBP (통상 1.15~1.25)</code></p>
+    <p class="stat-detail">
+      wOBA 자체는 출루율과 동일한 스케일(.330 등)로 표현되지만,
+      실제 득점 계산에 사용하려면 런 단위로 변환해야 합니다.
+      이 변환 계수가 wOBA Scale이며, Proxy WAR 계산 파이프라인에서 자동으로 연도별로 산출됩니다.
+    </p>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- E. 정규화 지표 (리그/파크 보정) -->
+<!-- ══════════════════════════════════════════════ -->
+
+<section class="stat-glossary-section" id="section-normalized">
+  <h3 class="stat-section-title">정규화 지표 (리그/파크 보정)</h3>
+
+  <div class="stat-glossary-item" id="glossary-eraplus">
+    <h4>보정 평균자책점 (ERA+)</h4>
+    <p class="stat-summary">리그 평균 ERA와 파크팩터를 반영해 투수의 상대적 우수성을 나타내는 지표. 100이 리그 평균.</p>
+    <p class="stat-formula"><code>ERA+ = 100 × (lgERA / ERA) × (PF / 100)</code></p>
+    <p class="stat-detail">
+      ERA+를 사용하면 타고투저 시대(ERA가 전반적으로 높음)와 투고타저 시대(ERA가 전반적으로 낮음)의
+      투수를 공정하게 비교할 수 있습니다. 예를 들어 2016년 KBO(타고투저)에서 ERA 3.50인 투수와
+      2020년 KBO(투고타저)에서 ERA 3.50인 투수는 ERA+가 크게 다릅니다.
+    </p>
+    <p class="stat-detail">
+      <strong>해석 기준:</strong>
+      <span class="badge-elite">200+ 엘리트</span>
+      <span class="badge-excellent">150~199 우수</span>
+      <span class="badge-above">120~149 평균 이상</span>
+      <span class="badge-avg">100~119 평균</span>
+      <span class="badge-below">100 미만 평균 이하</span>
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-opsplus">
+    <h4>보정 OPS (OPS+)</h4>
+    <p class="stat-summary">리그 평균 OBP/SLG와 파크팩터를 반영한 타자의 상대적 공격력. 100이 리그 평균.</p>
+    <p class="stat-formula"><code>OPS+ = 100 × (OBP/lgOBP + SLG/lgSLG - 1) / (PF/100)</code></p>
+    <p class="stat-detail">
+      ERA+와 동일한 스케일을 사용해 투수와 타자를 직관적으로 비교할 수 있습니다.
+      리그 환경과 구장 효과를 모두 제거하므로 1982년 타자와 2025년 타자를 같은 기준으로 비교 가능합니다.
+    </p>
+    <p class="stat-detail">
+      <strong>해석 기준:</strong>
+      <span class="badge-elite">200+ 엘리트</span>
+      <span class="badge-excellent">150~199 우수</span>
+      <span class="badge-above">120~149 평균 이상</span>
+      <span class="badge-avg">100~119 평균</span>
+      <span class="badge-below">100 미만 평균 이하</span>
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-wrcplus">
+    <h4>보정 득점 생산 (wRC+)</h4>
+    <p class="stat-summary">wOBA를 파크팩터와 리그 환경으로 보정한 종합 타격 지표. 현대 세이버메트릭스에서 타자 평가의 표준.</p>
+    <p class="stat-formula"><code>wRC+ = (((wRAA/PA + lgR/PA) + (lgR/PA - PF × lgR/PA)) / (lgwRC/PA)) × 100</code></p>
+    <p class="stat-detail">
+      OPS+보다 이론적으로 더 정교합니다. OBP와 SLG를 단순 합산하는 OPS+와 달리,
+      wRC+는 득점 기여 가중치(wOBA)를 기반으로 하기 때문에 타격 이벤트의 실제 가치를
+      더 정확하게 반영합니다.
+    </p>
+    <p class="stat-detail">
+      <strong>해석 기준:</strong>
+      <span class="badge-elite">200+ 엘리트</span>
+      <span class="badge-excellent">150~199 우수</span>
+      <span class="badge-above">120~149 평균 이상</span>
+      <span class="badge-avg">100~119 평균</span>
+      <span class="badge-below">100 미만 평균 이하</span>
+    </p>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- F. 파크팩터 -->
+<!-- ══════════════════════════════════════════════ -->
+
+<section class="stat-glossary-section" id="section-parkfactor">
+  <h3 class="stat-section-title">파크팩터</h3>
+
+  <div class="stat-glossary-item" id="glossary-pf">
+    <h4>파크팩터 (PF)</h4>
+    <p class="stat-summary">특정 구장이 득점 생산에 미치는 영향을 수치화한 지표. 100이 중립 구장.</p>
+    <p class="stat-formula"><code>PF = H × T / ((T-1) × R + H)</code><br>
+    <code>H = 홈경기 평균 득점(홈+원정), R = 원정경기 평균 득점(홈+원정), T = 리그 팀수</code></p>
+    <p class="stat-detail">
+      같은 타자라도 잠실(넓은 외야)에서 뛰는 것과 사직(외야 담장이 가까운 편)에서 뛰는 것은
+      홈런과 장타 생산에서 차이가 생깁니다. 파크팩터는 이 구장 환경 효과를 수치로 보정해
+      선수를 공정하게 비교할 수 있게 해줍니다.
+      이 대시보드는 FanGraphs 방식으로 3년 이동평균 파크팩터를 자체 계산합니다.
+    </p>
+    <p class="stat-detail">
+      <strong>해석 기준:</strong>
+      115 이상 = 타자천국 · 105~115 = 타자친화 · 95~105 = 중립 · 85~95 = 투수친화 · 85 미만 = 투수천국
+    </p>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- G. 종합 가치 지표 -->
+<!-- ══════════════════════════════════════════════ -->
+
+<section class="stat-glossary-section" id="section-war">
+  <h3 class="stat-section-title">종합 가치 지표</h3>
+
+  <div class="stat-glossary-item" id="glossary-proxywar">
+    <h4>근사 대체선수 대비 승리 기여 (Proxy WAR) ⚠️</h4>
+    <p class="stat-summary">한 선수가 시즌 동안 대체선수 수준의 선수 대비 팀 승리에 얼마나 기여했는지를 나타내는 종합 지표.</p>
+    <p class="stat-formula">
+      <strong>타자:</strong>
+      <code>(Batting Runs + wSB + Positional Adj + League Adj + Replacement Runs) / RPW</code><br>
+      <strong>투수:</strong>
+      <code>(Replacement RA9 - PF보정 RA9) × IP/9 / RPW</code>
+    </p>
+    <p class="stat-detail">
+      "대체선수"란 마이너리그에서 언제든 콜업할 수 있는 수준의 선수를 의미합니다.
+      WAR = 0이면 대체선수와 동일한 가치, WAR = 2이면 팀 승리를 2승 더 만들어낸 것입니다.
+    </p>
+    <p class="stat-detail">
+      <strong>해석 기준:</strong> 0 이하 = 대체선수 수준 · 1~2 = 백업/스팟 플레이어 · 2~4 = 주전급 · 4~6 = 올스타급 · 6~8 = MVP 후보 · 8+ = MVP급
+    </p>
+    <p class="stat-detail" style="color: #C62828;">
+      ⚠️ <strong>주의:</strong> 이 대시보드의 Proxy WAR은 수비 범위(UZR)와 비도루 주루(UBR) 데이터를
+      포함하지 않은 <strong>근사값</strong>입니다. 실제 fWAR·bWAR과 차이가 있을 수 있습니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-battingruns">
+    <h4>타격 기여 런 (Batting Runs)</h4>
+    <p class="stat-summary">wRAA에 파크팩터와 리그 보정을 적용한 런 단위 타격 기여값. 리그 평균 대비 타격으로 기여한 득점 수.</p>
+    <p class="stat-formula"><code>Batting Runs = wRAA + (lgR/PA - PF×lgR/PA)×PA + (lgR/PA - lgwRC/lgPA)×PA</code></p>
+    <p class="stat-detail">
+      양수이면 리그 평균 타자보다 많은 득점을 만들어냈고, 음수이면 평균 이하입니다.
+      Proxy WAR 타자 계산의 가장 큰 성분으로, 타격 능력 자체를 나타냅니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-wsb">
+    <h4>도루 기여 런 (wSB)</h4>
+    <p class="stat-summary">도루 성공·실패가 팀 득점에 미친 영향을 런 단위로 환산한 지표.</p>
+    <p class="stat-formula"><code>wSB = SB×0.2 + CS×(-(2×RunsPerOut + 0.075)) - lgwSB×(1B+BB+HBP-IBB)</code></p>
+    <p class="stat-detail">
+      단순 도루 횟수와 달리, 도루 실패 비용을 함께 고려합니다.
+      도루 성공 1회는 약 +0.2런, 도루 실패 1회는 상황에 따라 -0.4~-0.5런 수준입니다.
+      ⚠️ 비도루 주루(UBR: 진루 타구에서의 추가 진루 등)는 이 대시보드에서 포함하지 않습니다.
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-posadj">
+    <h4>포지션 보정 (Positional Adjustment)</h4>
+    <p class="stat-summary">수비 난이도에 따른 포지션별 가치 보정값. 런/162게임 단위로 Proxy WAR에 가산됩니다.</p>
+    <p class="stat-formula"><code>Pos Adj = (수비이닝 / 9 / 162) × 포지션_고정값</code></p>
+    <p class="stat-detail">
+      포지션별 고정값: 포수(C) +12.5 · 유격수(SS) +7.5 · 2루수(2B) +2.5 · 3루수(3B) +2.5 ·
+      중견수(CF) +2.5 · 우익수(RF) -7.5 · 좌익수(LF) -7.5 · 1루수(1B) -12.5 · 지명타자(DH) -17.5
+    </p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-rpw">
+    <h4>런 → 승리 환산 계수 (RPW)</h4>
+    <p class="stat-summary">1승을 만들어내는 데 필요한 득점(런)의 수. 리그 득점 환경에 따라 매년 달라집니다.</p>
+    <p class="stat-formula"><code>RPW = 9 × (lgR / lgIP) × 1.5 + 3</code></p>
+    <p class="stat-detail">
+      타고투저 시즌에는 득점이 많아 1승당 필요한 런이 늘어나고,
+      투고타저 시즌에는 상대적으로 적은 런으로도 1승을 만들 수 있습니다.
+      KBO 타고투저 절정기(2015~2019)와 투고타저 시기(2020~)의 RPW 값은 의미 있게 다릅니다.
+    </p>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- H. 리그 환경 상수 -->
+<!-- ══════════════════════════════════════════════ -->
+
+<section class="stat-glossary-section" id="section-league-constants">
+  <h3 class="stat-section-title">리그 환경 상수</h3>
+
+  <div class="stat-glossary-item" id="glossary-lgera">
+    <h4>리그 평균 ERA (lgERA)</h4>
+    <p class="stat-summary">해당 연도 KBO 리그 전체 투수의 평균자책점.</p>
+    <p class="stat-formula"><code>lgERA = (리그 전체 ER × 9) / 리그 전체 IP</code></p>
+    <p class="stat-detail">ERA+ 계산의 기준값으로 사용됩니다. 타고투저 시대에는 높아지고, 투고타저 시대에는 낮아집니다.</p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-lgobp">
+    <h4>리그 평균 출루율 (lgOBP)</h4>
+    <p class="stat-summary">해당 연도 KBO 리그 전체 타자의 평균 출루율.</p>
+    <p class="stat-formula"><code>lgOBP = (리그H + 리그BB + 리그HBP) / (리그AB + 리그BB + 리그HBP + 리그SF)</code></p>
+    <p class="stat-detail">OPS+ 및 wOBA Scale 계산의 기준값으로 사용됩니다.</p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-lgslg">
+    <h4>리그 평균 장타율 (lgSLG)</h4>
+    <p class="stat-summary">해당 연도 KBO 리그 전체 타자의 평균 장타율.</p>
+    <p class="stat-formula"><code>lgSLG = 리그 총루타 / 리그AB</code></p>
+    <p class="stat-detail">OPS+ 계산의 기준값으로 사용됩니다.</p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-lgops">
+    <h4>리그 평균 OPS (lgOPS)</h4>
+    <p class="stat-summary">해당 연도 KBO 리그 전체 타자의 평균 OPS.</p>
+    <p class="stat-formula"><code>lgOPS = lgOBP + lgSLG</code></p>
+    <p class="stat-detail">빠른 리그 환경 파악에 사용되는 참고 지표입니다.</p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-lgwoba">
+    <h4>리그 평균 wOBA (lgwOBA)</h4>
+    <p class="stat-summary">해당 연도 KBO 리그 전체 타자의 평균 wOBA.</p>
+    <p class="stat-formula"><code>wRAA = ((개인wOBA - lgwOBA) / wOBA_Scale) × PA</code></p>
+    <p class="stat-detail">wRAA 계산의 기준값으로 사용됩니다. 리그 평균 타자의 wRAA는 항상 0이 됩니다.</p>
+  </div>
+
+  <div class="stat-glossary-item" id="glossary-lgrpa">
+    <h4>리그 평균 타석당 득점 (lgR/PA)</h4>
+    <p class="stat-summary">해당 연도 KBO 리그에서 타석 1회당 평균적으로 발생한 득점 수.</p>
+    <p class="stat-formula"><code>lgR/PA = 리그 총득점 / 리그 총타석</code></p>
+    <p class="stat-detail">Batting Runs의 파크팩터 보정 계산과 wRC+ 계산의 기준값으로 사용됩니다.</p>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- I. 등급 체계 (대시보드 색상 배지) -->
+<!-- ══════════════════════════════════════════════ -->
+
+<section class="stat-glossary-section" id="section-grades">
+  <h3 class="stat-section-title">등급 체계 (ERA+ / OPS+ / wRC+ 공통 적용)</h3>
+
+  <div class="stat-glossary-item" id="glossary-grades">
+    <h4>성적 등급 기준</h4>
+    <p class="stat-summary">ERA+·OPS+·wRC+ 등 100 기준 정규화 지표에 공통으로 적용되는 5단계 등급 체계.</p>
+    <p class="stat-detail">
+      모든 정규화 지표는 <strong>100 = 리그 평균</strong>을 기준으로 합니다.
+      150은 리그 평균보다 50% 우수, 200은 리그 평균의 2배 수준입니다.
+    </p>
+    <table class="grade-table">
+      <thead>
+        <tr><th>등급</th><th>기준</th><th>의미</th><th>색상</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge-elite">엘리트</span></td>
+          <td><strong>200+</strong></td>
+          <td>역대급 시즌. KBO 역사에서도 손꼽히는 성적.</td>
+          <td>#7B2D8B (보라)</td>
+        </tr>
+        <tr>
+          <td><span class="badge-excellent">우수</span></td>
+          <td><strong>150~199</strong></td>
+          <td>올스타 이상급. 리그를 대표하는 선수.</td>
+          <td>#1A6B3C (초록)</td>
+        </tr>
+        <tr>
+          <td><span class="badge-above">평균 이상</span></td>
+          <td><strong>120~149</strong></td>
+          <td>준수한 주전급. 팀에 확실한 기여를 하는 선수.</td>
+          <td>#1565C0 (파랑)</td>
+        </tr>
+        <tr>
+          <td><span class="badge-avg">평균</span></td>
+          <td><strong>100~119</strong></td>
+          <td>리그 평균 수준. 주전 유지 가능한 성적.</td>
+          <td>#5A6275 (회색)</td>
+        </tr>
+        <tr>
+          <td><span class="badge-below">평균 이하</span></td>
+          <td><strong>100 미만</strong></td>
+          <td>리그 평균 미달. 주전 자리 경쟁에서 불리한 성적.</td>
+          <td>#C62828 (빨강)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</section>

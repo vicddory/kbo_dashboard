@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KBO Stats+ | 세이버메트릭스 대시보드</title>
+  <link href="https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/static/pretendard.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="s-logo">
+      <img src="image/kbo_logo.png" alt="KT">
+      <div>
+        <h1>KBO Stats+</h1>
+        <span>세이버메트릭스 대시보드</span>
+      </div>
+    </div>
+
+    <nav class="nav-sec">
+      <div class="nav-title">Overview</div>
+      <a class="nav-item active" data-page="dashboard">📊 리그 환경</a>
+      <a class="nav-item" data-page="player">🔍 선수 검색</a>
+      <a class="nav-item" data-page="glossary">📘 지표 설명</a>
+    </nav>
+    <nav class="nav-sec">
+      <div class="nav-title">투수</div>
+      <a class="nav-item" data-page="era">⚾ ERA+ 랭킹</a>
+      <a class="nav-item" data-page="war-pit">🛡️ Proxy WAR 투수</a>
+    </nav>
+    <nav class="nav-sec">
+      <div class="nav-title">타자</div>
+      <a class="nav-item" data-page="ops">🏏 OPS+ 랭킹</a>
+      <a class="nav-item" data-page="wrc">📈 wRC+ 랭킹</a>
+      <a class="nav-item" data-page="war-bat">⚔️ Proxy WAR 타자</a>
+    </nav>
+    <nav class="nav-sec">
+      <div class="nav-title">구장</div>
+      <a class="nav-item" data-page="pf">🏟️ 파크팩터</a>
+    </nav>
+
+    <div class="s-footer">
+      <img src="image/initialsymbol.png" alt="KT Wiz">
+      <span>2026 Champions kt wiz<br>&copy; no1thrower</span>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="page-hdr">
+      <h2 id="pageTitle">리그 환경 추이 (1982~2025)</h2>
+      <div class="hdr-actions">
+        <button class="help-btn" type="button" onclick="App.navigateTo('glossary', '지표 설명 가이드')">📘 지표 설명</button>
+        <button class="theme-btn" onclick="toggleTheme()">☀️ 라이트모드</button>
+      </div>
+    </div>
+
+    <!-- Page: Dashboard -->
+    <div id="pg-dashboard">
+      <div class="cards" id="summaryCards"></div>
+      <div class="section">
+        <div class="sec-hdr">
+          <h3>리그 평균 ERA · OPS 추이</h3>
+          <button class="mini-help js-glossary-link" type="button" data-glossary-target="section-league-constants">용어 보기</button>
+        </div>
+        <div class="chart-box"><canvas id="envChart"></canvas></div>
+      </div>
+      <div class="section">
+        <div class="sec-hdr">
+          <h3>연도별 ERA+ · OPS+ · wRC+ 1위</h3>
+          <button class="mini-help js-glossary-link" type="button" data-glossary-target="section-normalized">용어 보기</button>
+        </div>
+        <div class="chart-box"><canvas id="topChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Page: ERA+ -->
+    <div id="pg-era" style="display:none;">
+      <div class="section" style="position:relative;">
+        <div class="sec-hdr">
+          <h3>⚾ ERA+ 랭킹</h3>
+          <div class="sec-hdr-actions">
+            <button class="mini-help js-glossary-link" type="button" data-glossary-target="glossary-eraplus">ERA+ 설명</button>
+            <img src="image/ddory_pitching.png" class="mascot" alt="">
+          </div>
+        </div>
+        <div class="filters">
+          <label>연도</label><select id="eraYear"></select>
+          <label>팀</label><select id="eraTeam"><option value="all">전체</option></select>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>#</th><th>선수명</th><th>팀</th><th>ERA</th>
+              <th class="th-help" data-tip="투수가 던진 이닝 수(분수 이닝 포함)" data-link="glossary-ip">IP</th>
+              <th class="th-help" data-tip="승리-패전 기록. 팀 득점 지원 영향이 큼" data-link="glossary-w-l">W-L</th>
+              <th class="th-help" data-tip="해당 시즌 리그 평균 자책점" data-link="glossary-lgera">리그ERA</th>
+              <th class="th-help" data-tip="파크팩터(100 기준). 구장 득점 환경 보정값" data-link="glossary-pf">PF</th>
+              <th class="th-help" data-tip="리그/구장 보정 ERA 지표. 100이 평균, 높을수록 우수" data-link="glossary-eraplus">ERA+</th>
+            </tr></thead>
+            <tbody id="eraTbody"></tbody>
+          </table>
+        </div>
+        <img src="image/mascot_pitcher.png" class="mascot-bg" alt="">
+      </div>
+    </div>
+
+    <!-- Page: OPS+ -->
+    <div id="pg-ops" style="display:none;">
+      <div class="section" style="position:relative;">
+        <div class="sec-hdr">
+          <h3>🏏 OPS+ 랭킹</h3>
+          <div class="sec-hdr-actions">
+            <button class="mini-help js-glossary-link" type="button" data-glossary-target="glossary-opsplus">OPS+ 설명</button>
+            <img src="image/vic_batting.png" class="mascot" alt="">
+          </div>
+        </div>
+        <div class="filters">
+          <label>연도</label><select id="opsYear"></select>
+          <label>팀</label><select id="opsTeam"><option value="all">전체</option></select>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>#</th><th>선수명</th><th>팀</th><th>AVG</th><th>OBP</th>
+              <th>SLG</th>
+              <th class="th-help" data-tip="출루율+장타율. 타자 공격력의 간편 종합 지표" data-link="glossary-ops">OPS</th>
+              <th>HR</th><th>RBI</th>
+              <th class="th-help" data-tip="파크팩터(100 기준). 타자친화/투수친화 구장 보정" data-link="glossary-pf">PF</th>
+              <th class="th-help" data-tip="리그/구장 보정 OPS 지표. 100이 평균" data-link="glossary-opsplus">OPS+</th>
+            </tr></thead>
+            <tbody id="opsTbody"></tbody>
+          </table>
+        </div>
+        <img src="image/vic_batting.png" class="mascot-bg" alt="">
+      </div>
+    </div>
+
+    <!-- Page: wRC+ -->
+    <!-- Page: Player search -->
+    <div id="pg-player" style="display:none;">
+      <div class="section">
+        <div class="sec-hdr"><h3>🔍 선수 검색</h3></div>
+        <p class="player-hint">연도별 랭킹(상위 20명)에 포함된 시즌만 표시됩니다. 동명이인은 이름으로 구분하지 않습니다.</p>
+        <div class="player-search-row">
+          <input type="search" id="playerSearchInput" class="player-search-input" placeholder="선수 이름 입력" autocomplete="off" spellcheck="false">
+        </div>
+        <ul id="playerSearchResults" class="player-search-results"></ul>
+        <div id="playerDetail" style="display:none;">
+          <h4 id="playerDetailTitle" class="player-detail-title"></h4>
+          <div class="chart-box chart-box--player"><canvas id="playerCareerChart"></canvas></div>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr>
+                <th>연도</th><th>팀</th><th>ERA+</th><th>OPS+</th><th>wRC+</th>
+              </tr></thead>
+              <tbody id="playerCareerTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pg-wrc" style="display:none;">
+      <div class="section">
+        <div class="sec-hdr">
+          <h3>📈 wRC+ 랭킹</h3>
+          <button class="mini-help js-glossary-link" type="button" data-glossary-target="glossary-wrcplus">wRC+ 설명</button>
+        </div>
+        <div class="filters">
+          <label>연도</label><select id="wrcYear"></select>
+          <label>팀</label><select id="wrcTeam"><option value="all">전체</option></select>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>#</th><th>선수명</th><th>팀</th><th>AVG</th><th>OBP</th>
+              <th>SLG</th><th>OPS</th><th>PA</th><th>HR</th><th>RBI</th>
+              <th class="th-help" data-tip="타격 이벤트별 득점 가중치를 반영한 출루 지표" data-link="glossary-woba">wOBA</th>
+              <th class="th-help" data-tip="리그 평균 대비 타격 기여 런(점수) 규모" data-link="glossary-wraa">wRAA</th>
+              <th class="th-help" data-tip="구장 득점 환경 보정값(100 기준)" data-link="glossary-pf">PF</th>
+              <th class="th-help" data-tip="현대 표준 타격 종합 지표. 100이 리그 평균" data-link="glossary-wrcplus">wRC+</th>
+            </tr></thead>
+            <tbody id="wrcTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="pg-war-bat" style="display:none;">
+      <div class="section">
+        <div class="sec-hdr">
+          <h3>⚔️ Proxy WAR 타자</h3>
+          <button class="mini-help js-glossary-link" type="button" data-glossary-target="section-war">Proxy WAR 설명</button>
+        </div>
+        <p class="player-hint">Proxy WAR (수비 제외) · UZR/UBR 미포함 근사 WAR</p>
+        <div class="filters">
+          <label>연도</label><select id="warBatYear"></select>
+          <label>팀</label><select id="warBatTeam"><option value="all">전체</option></select>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>#</th><th>선수명</th><th>팀</th>
+              <th class="th-help" data-tip="수비 제외 근사 WAR. 대체선수 대비 승리 기여" data-link="glossary-proxywar">Proxy WAR</th>
+              <th class="th-help" data-tip="가중 출루율. 타격 질을 반영한 핵심 지표" data-link="glossary-woba">wOBA</th>
+              <th class="th-help" data-tip="리그 평균 대비 타격 기여 런(파크 보정 포함)" data-link="glossary-battingruns">Batting Runs</th>
+              <th class="th-help" data-tip="도루 성공/실패를 반영한 주루 기여 런" data-link="glossary-wsb">wSB</th>
+              <th class="th-help" data-tip="포지션 난이도 차이를 반영한 보정값" data-link="glossary-posadj">Pos Adj</th>
+              <th>OPS</th>
+            </tr></thead>
+            <tbody id="warBatTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="pg-war-pit" style="display:none;">
+      <div class="section">
+        <div class="sec-hdr">
+          <h3>🛡️ Proxy WAR 투수</h3>
+          <button class="mini-help js-glossary-link" type="button" data-glossary-target="section-war">Proxy WAR 설명</button>
+        </div>
+        <p class="player-hint">Proxy WAR (수비 제외) · UZR/UBR 미포함 근사 WAR</p>
+        <div class="filters">
+          <label>연도</label><select id="warPitYear"></select>
+          <label>팀</label><select id="warPitTeam"><option value="all">전체</option></select>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>#</th><th>선수명</th><th>팀</th><th>보직</th>
+              <th class="th-help" data-tip="RA9 기반 수비 제외 근사 WAR" data-link="glossary-proxywar">Proxy WAR</th>
+              <th>ERA</th>
+              <th class="th-help" data-tip="9이닝당 실점(비자책 포함). 낮을수록 우수" data-link="glossary-ra9">RA9</th>
+              <th class="th-help" data-tip="투구 이닝 수. 분수 이닝 포함" data-link="glossary-ip">IP</th>
+              <th class="th-help" data-tip="승리-패전 기록" data-link="glossary-w-l">W-L</th>
+            </tr></thead>
+            <tbody id="warPitTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: Park Factor -->
+    <div id="pg-pf" style="display:none;">
+      <div class="section">
+        <div class="sec-hdr">
+          <h3>🏟️ 파크팩터</h3>
+          <button class="mini-help js-glossary-link" type="button" data-glossary-target="glossary-pf">PF 설명</button>
+        </div>
+        <div class="filters">
+          <label>연도</label><select id="pfYear"></select>
+        </div>
+        <div id="pfBars"></div>
+      </div>
+    </div>
+
+    <div id="pg-glossary" style="display:none;">
+      <div class="section">
+        <div class="sec-hdr">
+          <h3>📘 KBO 지표 설명 가이드</h3>
+        </div>
+        <p class="player-hint">처음 보는 분도 쉽게 이해할 수 있도록 지표를 분류별로 정리했습니다.</p>
+        <div class="glossary-filters">
+          <div>
+            <label for="categoryFilter">분류 선택</label>
+            <select id="categoryFilter">
+              <option value="all">전체 보기</option>
+              <option value="section-batting">타자 기본 지표</option>
+              <option value="section-pitching">투수 기본 지표</option>
+              <option value="section-fielding">수비/주루</option>
+              <option value="section-sabermetrics">세이버메트릭스 보정</option>
+              <option value="section-normalized">정규화 지표(ERA+/OPS+/wRC+)</option>
+              <option value="section-war">종합 가치(Proxy WAR)</option>
+              <option value="section-parkfactor">구장 효과(파크팩터)</option>
+              <option value="section-league-constants">리그 환경 상수</option>
+              <option value="section-grades">등급 체계</option>
+            </select>
+          </div>
+          <div>
+            <label for="keywordFilter">키워드 검색</label>
+            <input id="keywordFilter" type="search" placeholder="예: ERA+, wOBA, 파크팩터">
+          </div>
+          <button id="resetFilterBtn" class="glossary-reset" type="button">초기화</button>
+        </div>
+        <div id="filterStatus" class="glossary-status">용어 데이터를 불러오는 중입니다.</div>
+      </div>
+      <div id="glossaryMount"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span class="kt">KBO Stats+</span> — 세이버메트릭스 대시보드 |
+      데이터: KBO 공식 홈페이지 + Statiz | ParkFactor: FanGraphs 방식 |
+      Made by <span class="kt">No.1 Thrower</span>
+    </footer>
+  </main>
+
+</div>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="js/data.js"></script>
+<script src="js/tables.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
