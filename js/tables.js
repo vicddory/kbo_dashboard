@@ -227,4 +227,41 @@ const Tables = {
       }
     }).join('');
   },
+
+  // --- FA 적정가 테이블 렌더링 ---
+  renderFa() {
+    const yearEl = document.getElementById('faYear');
+    const searchEl = document.getElementById('faSearch');
+    const tbody = document.getElementById('faTbody');
+    if (!yearEl || !searchEl || !tbody) return;
+
+    const year = yearEl.value;
+    const query = searchEl.value;
+    const data = DataStore.getFaContracts(year, query);
+
+    if (!data.length) {
+      tbody.innerHTML = `<tr><td colspan="11" style="text-align:center;color:var(--text-sub);">조건에 맞는 FA 데이터가 없습니다.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = data.map((p, i) => {
+      const m = p.model || {};
+      const range = (m.annualLow != null && m.annualMid != null && m.annualHigh != null)
+        ? `${this.fmt(m.annualLow, 1)} / ${this.fmt(m.annualMid, 1)} / ${this.fmt(m.annualHigh, 1)}`
+        : '-';
+      return `<tr>
+        <td>${i + 1}</td>
+        <td>${p.name ?? '-'}</td>
+        <td>${p.pos ?? '-'}</td>
+        <td>${p.type ?? '-'}</td>
+        <td>${p.from ?? p.team ?? '-'}</td>
+        <td>${p.to ?? '-'}</td>
+        <td>${p.duration ?? '-'}</td>
+        <td>${this.fmt(Number(p.total), 1)}</td>
+        <td>${m.weightedWar != null ? this.fmt(m.weightedWar, 2) : '-'}</td>
+        <td>${m.gradeLabel ? `${m.grade ?? '-'} (${m.gradeLabel})` : (m.grade ?? '-')}</td>
+        <td>${range}</td>
+      </tr>`;
+    }).join('');
+  },
 };

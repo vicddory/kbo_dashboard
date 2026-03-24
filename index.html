@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KBO Stats+ | 세이버메트릭스 대시보드</title>
+  <link rel="icon" type="image/png" href="image/initialsymbol.png">
   <link href="https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/static/pretendard.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 </head>
@@ -41,6 +42,7 @@
     <nav class="nav-sec">
       <div class="nav-title">구장</div>
       <a class="nav-item" data-page="pf">🏟️ 파크팩터</a>
+      <a class="nav-item" data-page="fa">💰 FA 적정가</a>
     </nav>
 
     <div class="s-footer">
@@ -61,6 +63,11 @@
 
     <!-- Page: Dashboard -->
     <div id="pg-dashboard">
+      <div class="section section--dashboard-year">
+        <div class="filters filters--dashboard-year">
+          <label>연도</label><select id="dashboardYear"></select>
+        </div>
+      </div>
       <div class="cards" id="summaryCards"></div>
       <div class="section">
         <div class="sec-hdr">
@@ -257,6 +264,31 @@
           <label>연도</label><select id="pfYear"></select>
         </div>
         <div id="pfBars"></div>
+      </div>
+    </div>
+
+    <div id="pg-fa" style="display:none;">
+      <div class="section">
+        <div class="sec-hdr">
+          <h3>💰 FA 적정가</h3>
+          <button class="mini-help js-glossary-link" type="button" data-glossary-target="section-war">WAR 설명</button>
+        </div>
+        <p class="player-hint">FA 계약 데이터 기반 추정치입니다. (선수명 검색 + 연도 선택)</p>
+        <div class="filters">
+          <label>연도</label><select id="faYear"></select>
+          <label>선수명</label><input id="faSearch" type="search" placeholder="예: 강백호">
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>#</th><th>선수명</th><th>포지션</th><th>유형</th>
+              <th>원소속</th><th>이적팀</th><th>기간</th><th>총액(억)</th>
+              <th class="th-help" data-tip="FA시즌·직전시즌·커리어 평균을 가중합한 WAR" data-link="section-war">가중 WAR</th>
+              <th>등급</th><th>적정 연봉 Low/Mid/High (억/년)</th>
+            </tr></thead>
+            <tbody id="faTbody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 

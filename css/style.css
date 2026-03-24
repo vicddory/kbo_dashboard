@@ -292,6 +292,29 @@ body {
   font-family: inherit;
 }
 
+/* 리그 환경 페이지 연도 선택 박스 가독성 강화 */
+.section--dashboard-year {
+  display: inline-block;
+  width: auto;
+  padding: 0.9rem 1rem;
+}
+
+.filters--dashboard-year {
+  margin-bottom: 0;
+  gap: 12px;
+}
+
+.filters--dashboard-year label {
+  font-size: 13px;
+}
+
+.filters--dashboard-year select {
+  min-width: 92px;
+  padding: 9px 14px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
 /* --- Tables --- */
 .tbl-wrap { overflow-x: auto; max-height: 600px; overflow-y: auto; }
 

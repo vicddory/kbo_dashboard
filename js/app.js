@@ -34,6 +34,7 @@ const App = {
     Tables.renderProxyWarBatter();
     Tables.renderProxyWarPitcher();
     Tables.renderParkFactor();
+    Tables.renderFa();
     this.setupPlayerSearch();
     this.setupGlossaryLinks();
     this.setupHeaderHelpLinks();
@@ -82,6 +83,7 @@ const App = {
       player: '선수 검색 · 커리어',
       glossary: '지표 설명 가이드',
       pf: '파크팩터 분석',
+      fa: 'FA 적정가',
     };
 
     document.querySelectorAll('.nav-item').forEach(item => {
@@ -180,26 +182,7 @@ const App = {
       this.glossaryPendingTarget = targetId;
       return;
     }
-    // 외부에서 용어로 이동할 때는 필터를 초기화해 대상이 숨겨지지 않게 한다.
-    this.resetGlossaryFilters();
     this.scrollToGlossary(targetId);
-  },
-
-  resetGlossaryFilters() {
-    const category = document.getElementById('categoryFilter');
-    const keyword = document.getElementById('keywordFilter');
-    if (!category || !keyword) return;
-    let changed = false;
-    if (category.value !== 'all') {
-      category.value = 'all';
-      changed = true;
-    }
-    if (keyword.value !== '') {
-      keyword.value = '';
-      changed = true;
-    }
-    if (!changed) return;
-    category.dispatchEvent(new Event('change', { bubbles: true }));
   },
 
   scrollToGlossary(targetId) {
@@ -210,9 +193,15 @@ const App = {
 
   navigateTo(page, title) {
     document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-    document.querySelector(`[data-page="${page}"]`).classList.add('active');
+    const navItem = document.querySelector(`[data-page="${page}"]`);
+    const pageEl = document.getElementById('pg-' + page);
+    if (!navItem || !pageEl) {
+      console.warn(`[App] 알 수 없는 페이지 요청: ${page}`);
+      return;
+    }
+    navItem.classList.add('active');
     document.querySelectorAll('[id^="pg-"]').forEach(p => p.style.display = 'none');
-    document.getElementById('pg-' + page).style.display = '';
+    pageEl.style.display = '';
     document.getElementById('pageTitle').textContent = title || '';
     this.currentPage = page;
     // 숨겨졌다가 다시 보일 때 캔버스 크기 보정
@@ -225,13 +214,19 @@ const App = {
   setupFilters() {
     const years = DataStore.getAvailableYears();
 
+    Tables.fillYearSelect('dashboardYear', years);
     Tables.fillYearSelect('eraYear', years);
     Tables.fillYearSelect('opsYear', years);
     Tables.fillYearSelect('wrcYear', years);
     Tables.fillYearSelect('warBatYear', years);
     Tables.fillYearSelect('warPitYear', years);
     Tables.fillYearSelect('pfYear', years);
+    Tables.fillYearSelect('faYear', DataStore.getFaYears());
 
+    document.getElementById('dashboardYear').addEventListener('change', () => {
+      this.buildSummary();
+      Charts.buildTopChart();
+    });
     document.getElementById('eraYear').addEventListener('change', () => Tables.renderEra());
     document.getElementById('eraTeam').addEventListener('change', () => Tables.renderEra());
     document.getElementById('opsYear').addEventListener('change', () => Tables.renderOps());
@@ -243,6 +238,8 @@ const App = {
     document.getElementById('warPitYear').addEventListener('change', () => Tables.renderProxyWarPitcher());
     document.getElementById('warPitTeam').addEventListener('change', () => Tables.renderProxyWarPitcher());
     document.getElementById('pfYear').addEventListener('change', () => Tables.renderParkFactor());
+    document.getElementById('faYear').addEventListener('change', () => Tables.renderFa());
+    document.getElementById('faSearch').addEventListener('input', () => Tables.renderFa());
   },
 
   // --- 선수 검색 (부분 일치, 랭킹에 포함된 시즌만) ---
@@ -293,10 +290,14 @@ const App = {
   // --- 요약 카드 ---
   buildSummary() {
     const env = DataStore.getLeagueEnv();
-    const latest = DataStore.getLatestEnv();
-    if (!latest) return;
+    if (!env.length) return;
 
-    const y = latest.year;
+    const yearSel = document.getElementById('dashboardYear');
+    const selectedYear = yearSel ? Number(yearSel.value) : null;
+    const row = env.find(d => Number(d.year) === selectedYear) || DataStore.getLatestEnv();
+    if (!row) return;
+
+    const y = row.year;
     const eraTop = DataStore.getEraTop1(y);
     const opsTop = DataStore.getOpsTop1(y);
     const wrcTop = DataStore.getWrcTop1(y);
@@ -311,17 +312,17 @@ const App = {
       </div>
       <div class="card c1">
         <div class="lb">${y} 리그 ERA</div>
-        <div class="val">${latest.lgERA}</div>
+        <div class="val">${row.lgERA}</div>
         <div class="sub">ERA+ 1위: ${eraTop ? eraTop.name + ' (' + eraTop.eraPlus + ')' : '-'}</div>
       </div>
       <div class="card c2">
         <div class="lb">${y} 리그 OPS</div>
-        <div class="val">${latest.lgOPS}</div>
+        <div class="val">${row.lgOPS}</div>
         <div class="sub">OPS+ 1위: ${opsTop ? opsTop.name + ' (' + opsTop.opsPlus + ')' : '-'}</div>
       </div>
       <div class="card c5">
         <div class="lb">${y} 리그 wOBA</div>
-        <div class="val">${latest.lgwOBA != null ? latest.lgwOBA : '-'}</div>
+        <div class="val">${row.lgwOBA != null ? row.lgwOBA : '-'}</div>
         <div class="sub">wRC+ 1위: ${wrcTop ? wrcTop.name + ' (' + wrcTop.wrcPlus + ')' : '-'}</div>
       </div>
       <div class="card c3">

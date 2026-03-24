@@ -183,13 +183,32 @@ const DataStore = {
     return this.raw?.park_factors?.[String(year)] || [];
   },
 
+  // --- FA 적정가 ---
+  getFaContracts(year, query = '') {
+    const data = this.raw?.fa_contracts?.[String(year)] || [];
+    const q = String(query || '').trim();
+    if (!q) return data;
+    return data.filter(d => String(d.name || '').includes(q));
+  },
+
+  getFaYears() {
+    const years = Object.keys(this.raw?.fa_contracts || {});
+    return years.sort((a, b) => b - a);
+  },
+
+  getFaMarketStats() {
+    return this.raw?.fa_market_stats || null;
+  },
+
   // --- Utility ---
   getAvailableYears() {
     const keys = new Set([
       ...Object.keys(this.raw?.era_plus || {}),
+      ...Object.keys(this.raw?.ops_plus || {}),
       ...Object.keys(this.raw?.wrc_plus || {}),
       ...Object.keys(this.raw?.proxy_war_batter || {}),
       ...Object.keys(this.raw?.proxy_war_pitcher || {}),
+      ...Object.keys(this.raw?.park_factors || {}),
     ]);
     return [...keys].sort((a, b) => b - a);
   },

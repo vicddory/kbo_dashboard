@@ -97,7 +97,11 @@ const Charts = {
   buildTopChart() {
     const ctx = document.getElementById('topChart');
     const t = this.themeOpts();
-    const years = DataStore.getLeagueEnv().map(d => d.year);
+    const allYears = DataStore.getLeagueEnv().map(d => Number(d.year)).sort((a, b) => a - b);
+    const dashYearEl = document.getElementById('dashboardYear');
+    const selectedYear = dashYearEl ? Number(dashYearEl.value) : null;
+    const pivotYear = Number.isFinite(selectedYear) ? selectedYear : allYears[allYears.length - 1];
+    const years = allYears.filter(y => y <= pivotYear).slice(-5);
 
     const eraVals = years.map(y => {
       const top = DataStore.getQualifiedEraTop1(y);
@@ -170,7 +174,7 @@ const Charts = {
         },
         scales: {
           x: {
-            ticks: { color: t.tick, maxRotation: 45, autoSkip: true, maxTicksLimit: 15 },
+            ticks: { color: t.tick, maxRotation: 0, autoSkip: false },
             grid: { display: false },
           },
           y: {
